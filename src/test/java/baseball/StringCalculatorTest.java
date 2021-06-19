@@ -1,5 +1,6 @@
 package baseball;
 
+import jdk.internal.joptsimple.internal.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import java.util.Scanner;
 class StringCalculatorTest {
 
     private List<String> numbers;
+    private static final int INIT_INT = -1;
 
     @BeforeEach
     void setUp() {
@@ -48,26 +50,22 @@ class StringCalculatorTest {
         String value = scanner.nextLine();
         String[] values = value.split(" ");
 
-        int a = -1;
-        int b = -1;
-        String operator = "";
-        int result = -1;
+        int a = INIT_INT;
+        String operator = Strings.EMPTY;
 
         for (String v : values) {
-
             if (!numbers.contains(v)) {
                 operator = v;
                 continue;
             }
 
             int i = Integer.parseInt(v);
-            if (a == -1) {
+            if (a == INIT_INT) {
                 a = i;
                 continue;
             }
 
-            b = i;
-            reset(calculate(a, operator, b), a, b, operator);
+            calculate(a, operator, i);
         }
     }
 
@@ -86,10 +84,4 @@ class StringCalculatorTest {
         }
     }
 
-    private void reset(int result, int a, int b, String operator) {
-        a = result;
-        b = -1;
-        operator = "";
-        result = -1;
-    }
 }
